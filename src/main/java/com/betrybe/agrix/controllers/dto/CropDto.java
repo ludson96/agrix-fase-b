@@ -1,6 +1,7 @@
 package com.betrybe.agrix.controllers.dto;
 
 import com.betrybe.agrix.models.entities.Crop;
+import java.time.LocalDate;
 
 /**
  * DTO usado como response, retirando toda informação do farm e enviando apenas seu id.
@@ -10,7 +11,7 @@ import com.betrybe.agrix.models.entities.Crop;
  * @param plantedArea do crop usado como response.
  * @param farmId Long do Farm usado como id.
  */
-public record CropDto(Long id, String name, Double plantedArea, Long farmId) {
+public record CropDto(Long id, String name, Double plantedArea, LocalDate plantedDate, LocalDate harvestDate, Long farmId) {
 
   /**
    * Método estático que transforma uma entidade em um DTO mantendo apenas o if de Farm.
@@ -23,6 +24,8 @@ public record CropDto(Long id, String name, Double plantedArea, Long farmId) {
         crop.getId(),
         crop.getName(),
         crop.getPlantedArea(),
+        crop.getPlantedDate(),
+        crop.getHarvestDate(),
         crop.getFarm().getId()
     );
   }

@@ -86,6 +86,8 @@ public class FarmController {
                     crop.getId(),
                     crop.getName(),
                     crop.getPlantedArea(),
+                    crop.getPlantedDate(),
+                    crop.getHarvestDate(),
                     crop.getFarm().getId()))
             .collect(Collectors.toList()));
   }
