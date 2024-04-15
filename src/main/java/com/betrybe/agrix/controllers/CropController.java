@@ -4,6 +4,7 @@ import com.betrybe.agrix.controllers.dto.CropDto;
 import com.betrybe.agrix.error.CustomError;
 import com.betrybe.agrix.models.entities.Crop;
 import com.betrybe.agrix.services.FarmService;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -63,5 +65,27 @@ public class CropController {
     return ResponseEntity
         .ok()
         .body(CropDto.fromEntityToDto(cropById));
+  }
+
+  @GetMapping("/search")
+  public ResponseEntity<List<CropDto>> searchCrops(
+      @RequestParam LocalDate start,
+      @RequestParam LocalDate end
+  ) {
+    List<Crop> allSearchCrops = farmService.searchCrops(start, end);
+
+    List<CropDto> allSearchCropsDto = allSearchCrops.stream().map(crop -> new CropDto(
+        crop.getId(),
+        crop.getName(),
+        crop.getPlantedArea(),
+        crop.getPlantedDate(),
+        crop.getHarvestDate(),
+        crop.getFarm().getId()
+    )).toList();
+
+    return ResponseEntity
+        .ok()
+        .body(allSearchCropsDto);
+
   }
 }
