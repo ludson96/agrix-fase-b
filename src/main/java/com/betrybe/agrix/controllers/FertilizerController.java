@@ -1,5 +1,6 @@
 package com.betrybe.agrix.controllers;
 
+import com.betrybe.agrix.controllers.dto.FertilizerDto;
 import com.betrybe.agrix.models.entities.Fertilizer;
 import com.betrybe.agrix.services.FertilizerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class FertilizerController {
 
   @PostMapping
   public ResponseEntity<Fertilizer> insertFertilizer(@RequestBody FertilizerDto fertilizerDto) {
-    Fertilizer newFertilizer = fertilizerService.insertFertilizer();
+    Fertilizer newFertilizer = fertilizerService.insertFertilizer(fertilizerDto.dtoToEntity());
     return ResponseEntity.status(HttpStatus.CREATED).body(newFertilizer);
   }
 }
