@@ -81,7 +81,8 @@ public class CropController {
         crop.getPlantedDate(),
         crop.getHarvestDate(),
         crop.getFarm().getId()
-    )).toList();
+    ))
+        .toList();
 
     return ResponseEntity
         .ok()

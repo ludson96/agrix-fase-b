@@ -4,10 +4,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -24,13 +23,8 @@ public class Fertilizer {
 
   private String composition;
 
-  @ManyToMany
-  @JoinTable(
-      name = "crop_fertilizer",
-      joinColumns = @JoinColumn(name = "fertilizer_id"),
-      inverseJoinColumns = @JoinColumn(name = "crop_id")
-  )
-  private List<Crop> crops;
+  @ManyToMany(mappedBy = "fertilizers")
+  private List<Crop> crops = new ArrayList<>();
 
   public Fertilizer() {
   }
@@ -67,5 +61,13 @@ public class Fertilizer {
 
   public void setComposition(String composition) {
     this.composition = composition;
+  }
+
+  public List<Crop> getCrops() {
+    return crops;
+  }
+
+  public void setCrops(List<Crop> crops) {
+    this.crops = crops;
   }
 }
