@@ -6,9 +6,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * Entidade Crops simbolizando as plantações no db.
@@ -32,6 +34,9 @@ public class Crop {
   private LocalDate plantedDate;
 
   private LocalDate harvestDate;
+
+  @ManyToMany(mappedBy = "crops")
+  private List<Fertilizer> fertilizers;
 
   public Crop() {
 
