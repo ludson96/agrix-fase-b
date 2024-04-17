@@ -55,7 +55,7 @@ public class CropService {
     return cropRepository.findAllByharvestDateBetween(start, end);
   }
 
-  public Boolean associateCropWithFertilizer(Long cropId, Long fertilizerId) throws CustomError {
+  public void associateCropWithFertilizer(Long cropId, Long fertilizerId) throws CustomError {
     Optional<Crop> optionalCrop = cropRepository.findById(cropId);
 
     if (optionalCrop.isEmpty()) {
@@ -74,6 +74,26 @@ public class CropService {
       );
     }
 
-    return true;
+    Crop crop = optionalCrop.get();
+    Fertilizer fertilizer = optionalFertilizer.get();
+
+    crop.getFertilizers().add(fertilizer);
+    fertilizer.getCrops().add(crop);
+
+    cropRepository.save(crop);
+    fertilizerRepository.save(fertilizer);
+  }
+
+  public List<Fertilizer> getFertilizersByCrop(Long cropId) throws CustomError {
+    Optional<Crop> optionalCrop = cropRepository.findById(cropId);
+
+    if (optionalCrop.isEmpty()) {
+      throw new CustomError(
+          "Plantação não encontrada!",
+          HttpStatus.NOT_FOUND.value()
+      );
+    }
+
+    return optionalCrop.get().getFertilizers();
   }
 }
