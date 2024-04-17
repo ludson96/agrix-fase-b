@@ -3,16 +3,16 @@ package com.betrybe.agrix.controllers;
 import com.betrybe.agrix.controllers.dto.CropDto;
 import com.betrybe.agrix.error.CustomError;
 import com.betrybe.agrix.models.entities.Crop;
-import com.betrybe.agrix.models.repositories.CropRepository;
 import com.betrybe.agrix.services.CropService;
-import com.betrybe.agrix.services.FarmService;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,11 +24,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/crops")
 public class CropController {
 
-  private final CropService cropRepository;
+  private final CropService cropService;
 
   @Autowired
-  public CropController(CropService cropRepository) {
-    this.cropRepository = cropRepository;
+  public CropController(CropService cropService) {
+    this.cropService = cropService;
   }
 
   /**
@@ -38,7 +38,7 @@ public class CropController {
    */
   @GetMapping
   public ResponseEntity<List<CropDto>> getAllCrops() {
-    List<Crop> allCrops = cropRepository.findAllCrops();
+    List<Crop> allCrops = cropService.findAllCrops();
 
     List<CropDto> allCropsDto = allCrops.stream().map(crop -> new CropDto(
         crop.getId(),
@@ -62,7 +62,7 @@ public class CropController {
   @GetMapping("{id}")
   public ResponseEntity<CropDto> getCropById(@PathVariable(name = "id") Long id)
       throws CustomError {
-    Crop cropById = cropRepository.getCropById(id);
+    Crop cropById = cropService.getCropById(id);
 
     return ResponseEntity
         .ok()
@@ -74,7 +74,7 @@ public class CropController {
       @RequestParam LocalDate start,
       @RequestParam LocalDate end
   ) {
-    List<Crop> allSearchCrops = cropRepository.searchCrops(start, end);
+    List<Crop> allSearchCrops = cropService.searchCrops(start, end);
 
     List<CropDto> allSearchCropsDto = allSearchCrops.stream().map(crop -> new CropDto(
         crop.getId(),
@@ -89,6 +89,17 @@ public class CropController {
     return ResponseEntity
         .ok()
         .body(allSearchCropsDto);
+  }
 
+  @PostMapping("{cropId}/fertilizers/{fertilizerId}")
+  public ResponseEntity<String> associateCropWithFertilizer(
+      @PathVariable(name = "cropId") Long cropId,
+      @PathVariable(name = "fertilizerId") Long fertilizerId
+  ) throws CustomError {
+    cropService.associateCropWithFertilizer(cropId, fertilizerId);
+
+      return ResponseEntity
+          .status(HttpStatus.CREATED)
+          .body("Fertilizante e plantação associados com sucesso!");
   }
 }
