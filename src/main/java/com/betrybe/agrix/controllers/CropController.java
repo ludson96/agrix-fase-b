@@ -3,6 +3,8 @@ package com.betrybe.agrix.controllers;
 import com.betrybe.agrix.controllers.dto.CropDto;
 import com.betrybe.agrix.error.CustomError;
 import com.betrybe.agrix.models.entities.Crop;
+import com.betrybe.agrix.models.repositories.CropRepository;
+import com.betrybe.agrix.services.CropService;
 import com.betrybe.agrix.services.FarmService;
 import java.time.LocalDate;
 import java.util.List;
@@ -22,11 +24,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/crops")
 public class CropController {
 
-  private final FarmService farmService;
+  private final CropService cropRepository;
 
   @Autowired
-  public CropController(FarmService farmService) {
-    this.farmService = farmService;
+  public CropController(CropService cropRepository) {
+    this.cropRepository = cropRepository;
   }
 
   /**
@@ -36,7 +38,7 @@ public class CropController {
    */
   @GetMapping
   public ResponseEntity<List<CropDto>> getAllCrops() {
-    List<Crop> allCrops = farmService.findAllCrops();
+    List<Crop> allCrops = cropRepository.findAllCrops();
 
     List<CropDto> allCropsDto = allCrops.stream().map(crop -> new CropDto(
         crop.getId(),
@@ -60,7 +62,7 @@ public class CropController {
   @GetMapping("{id}")
   public ResponseEntity<CropDto> getCropById(@PathVariable(name = "id") Long id)
       throws CustomError {
-    Crop cropById = farmService.getCropById(id);
+    Crop cropById = cropRepository.getCropById(id);
 
     return ResponseEntity
         .ok()
@@ -72,7 +74,7 @@ public class CropController {
       @RequestParam LocalDate start,
       @RequestParam LocalDate end
   ) {
-    List<Crop> allSearchCrops = farmService.searchCrops(start, end);
+    List<Crop> allSearchCrops = cropRepository.searchCrops(start, end);
 
     List<CropDto> allSearchCropsDto = allSearchCrops.stream().map(crop -> new CropDto(
         crop.getId(),
