@@ -11,7 +11,13 @@ import java.time.LocalDate;
  * @param plantedArea Area plantada de Crop.
  * @param farmId FarmId referente a fazenda relacionada.
  */
-public record CropDtoToEntity(String name, Double plantedArea, LocalDate plantedDate, LocalDate harvestDate, Farm farmId) {
+public record CropDtoToEntity(
+    String name,
+    Double plantedArea,
+    LocalDate plantedDate,
+    LocalDate harvestDate,
+    Farm farmId
+) {
   public Crop dtoToEntity() {
     return new Crop(name, plantedArea, farmId, plantedDate, harvestDate);
   }

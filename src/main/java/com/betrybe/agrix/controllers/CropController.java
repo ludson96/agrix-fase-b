@@ -70,6 +70,13 @@ public class CropController {
         .body(CropDto.fromEntityToDto(cropById));
   }
 
+  /**
+   * Método pesquisa pela data de colheira entre duas datas fornecidas.
+   *
+   * @param start Data inicial da colheita desejada.
+   * @param end Data final da colheita desejada.
+   * @return retorna uma List de CropDto com todas as colheitas entre as datas fornecidas.
+   */
   @GetMapping("/search")
   public ResponseEntity<List<CropDto>> searchCrops(
       @RequestParam LocalDate start,
@@ -92,6 +99,14 @@ public class CropController {
         .body(allSearchCropsDto);
   }
 
+  /**
+   * Método que associa um Crop a um Fertilizer.
+   *
+   * @param cropId Id do Crop desejado a ser associado.
+   * @param fertilizerId Id do Fertilizer desejado a ser associado.
+   * @return Retorna uma string de sucesso.
+   * @throws CustomError Exceção lançada caso não exista no bd cropId ou fertilizerId informado.
+   */
   @PostMapping("{cropId}/fertilizers/{fertilizerId}")
   public ResponseEntity<String> associateCropWithFertilizer(
       @PathVariable(name = "cropId") Long cropId,
@@ -99,15 +114,22 @@ public class CropController {
   ) throws CustomError {
     cropService.associateCropWithFertilizer(cropId, fertilizerId);
 
-      return ResponseEntity
-          .status(HttpStatus.CREATED)
-          .body("Fertilizante e plantação associados com sucesso!");
+    return ResponseEntity
+        .status(HttpStatus.CREATED)
+        .body("Fertilizante e plantação associados com sucesso!");
   }
 
+  /**
+   * Método retorna todos os Fertilizer de um Crop específico.
+   *
+   * @param cropId Id do crop especifico.
+   * @return Retorna uma List de Fertilizer associado ao Crop informado.
+   * @throws CustomError Exceção lançada se o id do Crop informado não for encontrado no db.
+   */
   @GetMapping("/{cropId}/fertilizers")
   public ResponseEntity<List<Fertilizer>> getFertilizersByCrop(
       @PathVariable(name = "cropId") Long cropId
-      ) throws CustomError {
+  ) throws CustomError {
     List<Fertilizer> fertilizersByCrop = cropService.getFertilizersByCrop(cropId);
 
     return ResponseEntity.ok().body(fertilizersByCrop);

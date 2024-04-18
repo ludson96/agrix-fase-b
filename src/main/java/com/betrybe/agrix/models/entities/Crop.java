@@ -56,7 +56,13 @@ public class Crop {
    * @param plantedArea Um Double como area plantada da plantação.
    * @param farm Um Farm como id da plantação.
    */
-  public Crop(String name, Double plantedArea, Farm farm, LocalDate plantedDate, LocalDate harvestDate) {
+  public Crop(
+      String name,
+      Double plantedArea,
+      Farm farm,
+      LocalDate plantedDate,
+      LocalDate harvestDate
+  ) {
     this.name = name;
     this.plantedArea = plantedArea;
     this.farm = farm;

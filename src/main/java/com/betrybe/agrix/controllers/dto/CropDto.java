@@ -11,7 +11,14 @@ import java.time.LocalDate;
  * @param plantedArea do crop usado como response.
  * @param farmId Long do Farm usado como id.
  */
-public record CropDto(Long id, String name, Double plantedArea, LocalDate plantedDate, LocalDate harvestDate, Long farmId) {
+public record CropDto(
+    Long id,
+    String name,
+    Double plantedArea,
+    LocalDate plantedDate,
+    LocalDate harvestDate,
+    Long farmId
+) {
 
   /**
    * Método estático que transforma uma entidade em um DTO mantendo apenas o if de Farm.

@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Controller da entidade Fertilizer.
+ */
 @RestController
 @RequestMapping("/fertilizers")
 public class FertilizerController {
@@ -26,12 +29,27 @@ public class FertilizerController {
     this.fertilizerService = fertilizerService;
   }
 
+  /**
+   * Método adiciona um Fertilizante no banco de dados.
+   *
+   * @param fertilizerDto Corpo da requisição a ser adicionado.
+   * @return Retorna status 201 e o novo Fertilizer com id.
+   */
   @PostMapping
-  public ResponseEntity<FertilizerDto> insertFertilizer(@RequestBody FertilizerDto fertilizerDto) {
+  public ResponseEntity<FertilizerDto> insertFertilizer(
+      @RequestBody FertilizerDto fertilizerDto
+  ) {
     Fertilizer newFertilizer = fertilizerService.insertFertilizer(fertilizerDto.dtoToEntity());
-    return ResponseEntity.status(HttpStatus.CREATED).body(FertilizerDto.fromEntityToDto(newFertilizer));
+    return ResponseEntity
+        .status(HttpStatus.CREATED)
+        .body(FertilizerDto.fromEntityToDto(newFertilizer));
   }
 
+  /**
+   * Método retorna todos os fertilizantes no banco de dados.
+   *
+   * @return Retorna status 200 e um List com todos os Fertilizer cadastrados.
+   */
   @GetMapping
   public ResponseEntity<List<FertilizerDto>> getAllFertilizes() {
     List<Fertilizer> allFertilizes = fertilizerService.getAllFertilizes();
@@ -46,6 +64,13 @@ public class FertilizerController {
     );
   }
 
+  /**
+   * Método retorna um Fertilizer específico.
+   *
+   * @param id Id do Fertilizer desejado.
+   * @return Retorna status 200 e Fertilizer com id.
+   * @throws CustomError Exceção lançada caso não encontre nenhum Fertilizer informado.
+   */
   @GetMapping("{id}")
   public ResponseEntity<FertilizerDto> getFertilizerById(@PathVariable(name = "id") Long id)
       throws CustomError {

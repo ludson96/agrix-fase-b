@@ -10,6 +10,9 @@ import jakarta.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Entidade Fertilizer simbolizando os fertilizantes no bando de dados.
+ */
 @Entity
 @Table(name = "fertilizer")
 public class Fertilizer {
@@ -31,6 +34,13 @@ public class Fertilizer {
   public Fertilizer() {
   }
 
+  /**
+   * Construtor para criação um Fertilizer.
+   *
+   * @param name Nome do Fertilizer.
+   * @param brand Marca do Fertilizer.
+   * @param composition Composição do Fertilizer.
+   */
   public Fertilizer(String name, String brand, String composition) {
     this.name = name;
     this.brand = brand;

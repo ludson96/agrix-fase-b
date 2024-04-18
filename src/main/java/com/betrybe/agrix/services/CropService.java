@@ -12,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service da entidade Crop.
+ */
 @Service
 public class CropService {
 
@@ -55,6 +58,13 @@ public class CropService {
     return cropRepository.findAllByharvestDateBetween(start, end);
   }
 
+  /**
+   * Método com lógica de associação de um Crop a um Fertilizer.
+   *
+   * @param cropId Id do Crop a ser associado.
+   * @param fertilizerId Id do Fertilizer a ser associado.
+   * @throws CustomError Exceção lançada caso não exista id do Crop ou do Fertilizer.
+   */
   public void associateCropWithFertilizer(Long cropId, Long fertilizerId) throws CustomError {
     Optional<Crop> optionalCrop = cropRepository.findById(cropId);
 
@@ -84,6 +94,13 @@ public class CropService {
     fertilizerRepository.save(fertilizer);
   }
 
+  /**
+   * Método com a lógica de retornar os Fertilizers de um Crop.
+   *
+   * @param cropId Id do Crop desejado.
+   * @return Retorna uma List com os Fertilizer.
+   * @throws CustomError Exceção lançada caso o id do crop informado não exista no bando de dados.
+   */
   public List<Fertilizer> getFertilizersByCrop(Long cropId) throws CustomError {
     Optional<Crop> optionalCrop = cropRepository.findById(cropId);
 

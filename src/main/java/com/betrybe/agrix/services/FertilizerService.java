@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service da entidade Fertilizer.
+ */
 @Service
 public class FertilizerService {
 
@@ -27,6 +30,13 @@ public class FertilizerService {
     return fertilizerRepository.findAll();
   }
 
+  /**
+   * Método com a lógica de retornar um Fertilizer específico.
+   *
+   * @param id Id do Fertilizer a ser retornado.
+   * @return Retorna o Fertilizer desejado.
+   * @throws CustomError Exceção lançada caso o id não esteja no banco de dados.
+   */
   public Fertilizer getFertilizeById(Long id) throws CustomError {
     Optional<Fertilizer> optionalFertilizer = fertilizerRepository.findById(id);
 
