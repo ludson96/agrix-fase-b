@@ -1,4 +1,4 @@
-package com.betrybe.agrix.solution;
+package com.betrybe.agrix;
 
 import static  org.junit.jupiter.api.Assertions.*;
 
